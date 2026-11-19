@@ -2,7 +2,7 @@
 // Roda separado da página, como um "porteiro" entre o app e a internet.
 
 // Trocar o número quando mudar a lista de arquivos abaixo
-const NOME_CACHE = "versiculo-v1";
+const NOME_CACHE = "versiculo-v2";
 
 const ARQUIVOS = [
   "/",
@@ -15,6 +15,7 @@ const ARQUIVOS = [
   "/manifest.json",
   "/icones/icone-192.png",
   "/icones/icone-512.png",
+  "/icones/apple-touch-icon.png",
 ];
 
 // Instalação: baixa tudo de uma vez e guarda

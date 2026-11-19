@@ -62,7 +62,7 @@ versiculo-diario/
 ├── favicon.svg     # ícone da aba
 ├── manifest.json   # dados do app de celular (PWA)
 ├── service-worker.js # guarda os arquivos no celular pra abrir sem internet
-├── icones/         # ícones do app (192px, 512px e versão "maskable" pro Android)
+├── icones/         # ícones do app (192px, 512px e versão "maskable" pro Android e apple-touch-icon pro iPhone)
 └── previa.png      # imagem da prévia do link (1200×630)
 ```
 
