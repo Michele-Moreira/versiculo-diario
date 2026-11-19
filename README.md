@@ -2,6 +2,8 @@
 
 Um versículo bíblico por dia, feito pra minha mãe.
 
+**🌿 Acesse: [versiculo-diario-three.vercel.app](https://versiculo-diario-three.vercel.app/)**
+
 A página mostra a data de hoje e um versículo que muda sozinho à meia-noite. Dá pra sortear outro versículo,
 mandar o versículo pelo WhatsApp e abrir o capítulo inteiro pra ler o contexto. Foi pensada primeiro pro
 celular, com letra grande e contraste forte pra facilitar a leitura.
