@@ -1,0 +1,171 @@
+:root {
+  --verde-escuro: #1F4D3A;
+  --verde-pastel: #DCEFE3;
+  --branco: #FFFFFF;
+  --texto: #1E2A24;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Faz padding e borda contarem dentro da largura da caixa */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 1.5rem 1rem;
+  background: var(--verde-pastel);
+  color: var(--texto);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* O cartão */
+main {
+  width: 100%;
+  max-width: 32rem;
+  padding: 2rem 1.5rem;
+  background: var(--branco);
+  border-radius: 1.5rem;
+  border-top: 6px solid var(--verde-escuro);
+  box-shadow: 0 8px 24px rgba(31, 77, 58, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Data em formato de etiqueta */
+time {
+  align-self: flex-start;
+  padding: 0.35rem 0.9rem;
+  background: var(--verde-pastel);
+  color: var(--verde-escuro);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+blockquote {
+  margin: 0;
+  position: relative;
+  padding-top: 2.5rem;
+}
+
+/* Aspas gigantes de enfeite */
+blockquote::before {
+  content: "“";
+  position: absolute;
+  top: -1rem;
+  left: -0.25rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--verde-pastel);
+}
+
+/* O versículo em fonte serifada, com cara de livro */
+blockquote p {
+  position: relative;
+  margin: 0 0 1rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  line-height: 1.5;
+}
+
+cite {
+  display: block;
+  color: var(--verde-escuro);
+  font-size: 1.1rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Botões, um embaixo do outro */
+.acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Serve pro link do WhatsApp (a) e pro "Outro versículo" (button) */
+.botao {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  background: var(--verde-escuro);
+  color: var(--branco);
+  border: 2px solid var(--verde-escuro);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.botao:hover {
+  transform: translateY(-2px);
+}
+
+.botao:active {
+  transform: translateY(0);
+}
+
+/* Contorno visível pra quem navega pelo teclado */
+.botao:focus-visible,
+.link-capitulo:focus-visible,
+footer a:focus-visible {
+  outline: 3px solid var(--verde-escuro);
+  outline-offset: 3px;
+}
+
+.botao-secundario {
+  background: var(--branco);
+  color: var(--verde-escuro);
+}
+
+.botao-secundario:hover {
+  background: var(--verde-pastel);
+}
+
+.link-capitulo {
+  align-self: center;
+  color: var(--verde-escuro);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+
+footer {
+  max-width: 32rem;
+  text-align: center;
+  color: var(--verde-escuro);
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: inherit;
+  font-weight: 600;
+}
+
+/* Tela maior: os botões ficam lado a lado */
+@media (min-width: 600px) {
+  main {
+    padding: 2.5rem;
+  }
+
+  .acoes {
+    flex-direction: row;
+  }
+
+  blockquote p {
+    font-size: 1.75rem;
+  }
+}
