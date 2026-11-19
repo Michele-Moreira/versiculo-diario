@@ -180,6 +180,15 @@ footer a {
     flex-direction: row;
   }
 
+  /* Lado a lado, cada botão ocupa a largura do próprio texto (sem quebrar linha)
+     e o espaço que sobra é dividido entre os dois */
+  .acoes .botao {
+    flex: 1 1 auto;
+    width: auto;
+    padding-inline: 1rem;
+    white-space: nowrap;
+  }
+
   blockquote p {
     font-size: 1.75rem;
   }
