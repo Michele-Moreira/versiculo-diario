@@ -13,7 +13,9 @@ celular, com letra grande e contraste forte pra facilitar a leitura.
 - **Versículo do dia:** escolhido pela data do aparelho, igual pra todo mundo no mesmo dia. São 365 versículos,
   então a lista só se repete depois de um ano.
 - **Outro versículo:** sorteia um versículo diferente do que está na tela.
-- **Enviar no WhatsApp:** abre o WhatsApp com o texto e a referência já prontos.
+- **Enviar no WhatsApp:** no celular, abre o menu de compartilhar com uma imagem do cartão do dia, o texto e o
+  link do site. No computador, abre o WhatsApp só com o texto e o link.
+- **Prévia do link:** quem recebe o endereço do site vê um cartão com o ícone e o nome do projeto (Open Graph).
 - **Ler o capítulo:** abre o capítulo do versículo no site da Bíblia Livre.
 - **Layout responsivo:** cartão centralizado no celular, com os botões empilhados, que ficam lado a lado em
   telas a partir de 600px.
@@ -51,7 +53,10 @@ versiculo-diario/
 ├── index.html      # estrutura da página
 ├── style.css       # cores, layout e responsividade
 ├── script.js       # data, versículo do dia e botões
-└── versiculos.js   # lista com os 365 versículos
+├── imagem.js       # desenha o cartão do versículo numa imagem (canvas) pro WhatsApp
+├── versiculos.js   # lista com os 365 versículos
+├── favicon.svg     # ícone da aba
+└── previa.png      # imagem da prévia do link (1200×630)
 ```
 
 ## Como funciona o versículo do dia

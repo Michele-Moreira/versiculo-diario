@@ -9,6 +9,11 @@ const linkCapitulo = document.querySelector("#capitulo");
 // Guarda qual versículo está na tela, pro sorteio não repetir o mesmo
 let indiceAtual = 0;
 
+// O que vai pro WhatsApp: o texto e a imagem do cartão do versículo que está na tela
+const ENDERECO_SITE = "https://versiculo-diario-three.vercel.app";
+let mensagemAtual = "";
+let imagemAtual = null;
+
 // Número do dia no ano (1 de janeiro = 1). Usa o dia, mês e ano do celular,
 // e não o horário mundial (UTC), senão o versículo trocaria às 21h em Brasília.
 function diaDoAno(hoje) {
@@ -42,8 +47,39 @@ function mostrarVersiculo(indice) {
   linkCapitulo.href = `https://ebible.org/porbr2018/${versiculo.capitulo}.htm`;
 
   // encodeURIComponent transforma espaço, acento e aspas em algo que cabe num link
-  const mensagem = `"${versiculo.texto}" (${versiculo.referencia})`;
-  botaoWhatsapp.href = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+  mensagemAtual = `"${versiculo.texto}" (${versiculo.referencia})\n\nVersículo do dia: ${ENDERECO_SITE}`;
+  botaoWhatsapp.href = `https://wa.me/?text=${encodeURIComponent(mensagemAtual)}`;
+
+  prepararImagem(versiculo);
+}
+
+// Desenha a imagem do cartão já agora, e não na hora do toque: o celular só abre
+// o menu de compartilhar se o share() for chamado logo depois do toque, sem espera.
+function prepararImagem(versiculo) {
+  imagemAtual = null;
+  const canvas = document.createElement("canvas");
+  canvas.width = LARGURA_IMAGEM;
+  canvas.height = ALTURA_IMAGEM;
+  desenharCartao(canvas.getContext("2d"), versiculo, data.textContent);
+
+  canvas.toBlob((blob) => {
+    // Se a pessoa sorteou outro enquanto desenhava, essa imagem já não vale
+    if (versiculos[indiceAtual] !== versiculo || !blob) return;
+    imagemAtual = new File([blob], "versiculo-do-dia.png", { type: "image/png" });
+  }, "image/png");
+}
+
+// No celular: abre o menu de compartilhar com a imagem + o texto.
+// No computador (ou se a imagem não ficou pronta): segue o link do wa.me, só com o texto.
+function compartilhar(evento) {
+  const dados = { files: [imagemAtual], text: mensagemAtual };
+  if (!imagemAtual || !navigator.canShare || !navigator.canShare(dados)) return;
+
+  evento.preventDefault();
+  navigator.share(dados).catch((erro) => {
+    // AbortError = a pessoa fechou o menu sem escolher, não é problema
+    if (erro.name !== "AbortError") window.location.href = botaoWhatsapp.href;
+  });
 }
 
 // Sorteia outro versículo, diferente do que está na tela
@@ -61,3 +97,4 @@ mostrarData(hoje);
 mostrarVersiculo(diaDoAno(hoje) % versiculos.length);
 
 botaoOutro.addEventListener("click", sortearOutro);
+botaoWhatsapp.addEventListener("click", compartilhar);
