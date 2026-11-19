@@ -98,3 +98,9 @@ mostrarVersiculo(diaDoAno(hoje) % versiculos.length);
 
 botaoOutro.addEventListener("click", sortearOutro);
 botaoWhatsapp.addEventListener("click", compartilhar);
+
+// Liga o service worker (o que faz o app abrir sem internet), se o navegador tiver
+if ("serviceWorker" in navigator) {
+  // Aberto com dois cliques no arquivo (file://) não funciona, e tudo bem: o site segue normal
+  navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+}

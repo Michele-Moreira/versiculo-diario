@@ -19,6 +19,9 @@ celular, com letra grande e contraste forte pra facilitar a leitura.
 - **Ler o capítulo:** abre o capítulo do versículo no site da Bíblia Livre.
 - **Layout responsivo:** cartão centralizado no celular, com os botões empilhados, que ficam lado a lado em
   telas a partir de 600px.
+- **App de celular (PWA):** dá pra instalar na tela inicial pelo Chrome ("Instalar app"). Abre em tela cheia,
+  com ícone próprio, e funciona sem internet.
+- **Modo escuro:** segue sozinho o tema do celular ou do computador.
 
 ## Tecnologias
 
@@ -27,8 +30,9 @@ Projeto feito sem framework e sem biblioteca, pra praticar a base.
 | Tecnologia | Onde aparece |
 |---|---|
 | **HTML** | Tags com significado: `main`, `time`, `blockquote`, `cite`, `footer` |
-| **CSS** | Variáveis de cor (`:root`), flex-box, `media query` pensada primeiro pro celular, pseudo-elemento `::before` nas aspas de enfeite, estados `:hover` e `:focus-visible` |
+| **CSS** | Variáveis de cor (`:root`), flex-box, `media query` pensada primeiro pro celular, modo escuro com `prefers-color-scheme`, pseudo-elemento `::before` nas aspas de enfeite, estados `:hover` e `:focus-visible` |
 | **JavaScript** | DOM (`querySelector`, `textContent`), eventos (`addEventListener`), datas (`Date` e `toLocaleDateString`), `encodeURIComponent` no link do WhatsApp |
+| **PWA** | `manifest.json` (nome, cores e ícones do app) e service worker com cache pra abrir sem internet |
 | **Git e GitHub** | Histórico do projeto, um commit por etapa, no padrão Conventional Commits |
 
 ## Como rodar o projeto
@@ -56,6 +60,9 @@ versiculo-diario/
 ├── imagem.js       # desenha o cartão do versículo numa imagem (canvas) pro WhatsApp
 ├── versiculos.js   # lista com os 365 versículos
 ├── favicon.svg     # ícone da aba
+├── manifest.json   # dados do app de celular (PWA)
+├── service-worker.js # guarda os arquivos no celular pra abrir sem internet
+├── icones/         # ícones do app (192px, 512px e versão "maskable" pro Android)
 └── previa.png      # imagem da prévia do link (1200×630)
 ```
 
