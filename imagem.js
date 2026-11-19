@@ -4,11 +4,13 @@
 const LARGURA_IMAGEM = 1080;
 const ALTURA_IMAGEM = 1350; // formato em pé, que ocupa bem a tela do celular
 
-const CORES = {
-  verdeEscuro: "#1F4D3A",
-  verdePastel: "#DCEFE3",
-  branco: "#FFFFFF",
-  texto: "#1E2A24",
+// As mesmas cores das paletas do style.css (versão clara: a imagem sai sempre clara,
+// porque quem recebe no WhatsApp pode estar no modo claro).
+// Mudou cor lá no CSS? Muda aqui também.
+const PALETAS = {
+  verde: { forte: "#1F4D3A", suave: "#DCEFE3", cartao: "#FFFFFF", texto: "#1E2A24", fundoEscuro: "#0F1F18" },
+  azul: { forte: "#1E3A5F", suave: "#DCE8F5", cartao: "#FFFFFF", texto: "#1C2633", fundoEscuro: "#0E1724" },
+  lilas: { forte: "#4B2E6B", suave: "#ECE3F5", cartao: "#FFFFFF", texto: "#2A2233", fundoEscuro: "#1A1224" },
 };
 
 const FONTE_SERIFADA = "Georgia, 'Times New Roman', serif";
@@ -34,7 +36,7 @@ function quebrarEmLinhas(ctx, texto, larguraMaxima) {
   return linhas;
 }
 
-function desenharCartao(ctx, versiculo, dataTexto) {
+function desenharCartao(ctx, versiculo, dataTexto, cores) {
   const margem = 70;
   const cartao = {
     x: margem,
@@ -45,27 +47,27 @@ function desenharCartao(ctx, versiculo, dataTexto) {
   const respiro = 80; // espaço interno do cartão (o "padding")
   const larguraTexto = cartao.largura - respiro * 2;
 
-  // Fundo verde pastel, igual ao body
-  ctx.fillStyle = CORES.verdePastel;
+  // Fundo na cor suave, igual ao body
+  ctx.fillStyle = cores.suave;
   ctx.fillRect(0, 0, LARGURA_IMAGEM, ALTURA_IMAGEM);
 
-  // Cartão branco com sombra
+  // Cartão com sombra
   ctx.save();
-  ctx.shadowColor = "rgba(31, 77, 58, 0.15)";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.12)";
   ctx.shadowBlur = 48;
   ctx.shadowOffsetY = 16;
   ctx.beginPath();
   ctx.roundRect(cartao.x, cartao.y, cartao.largura, cartao.altura, 56);
-  ctx.fillStyle = CORES.branco;
+  ctx.fillStyle = cores.cartao;
   ctx.fill();
   ctx.restore();
 
-  // Faixa verde no topo (o border-top do CSS): recorto no formato do cartão e pinto só a ponta
+  // Faixa na cor forte no topo (o border-top do CSS): recorto no formato do cartão e pinto só a ponta
   ctx.save();
   ctx.beginPath();
   ctx.roundRect(cartao.x, cartao.y, cartao.largura, cartao.altura, 56);
   ctx.clip();
-  ctx.fillStyle = CORES.verdeEscuro;
+  ctx.fillStyle = cores.forte;
   ctx.fillRect(cartao.x, cartao.y, cartao.largura, 16);
   ctx.restore();
 
@@ -76,9 +78,9 @@ function desenharCartao(ctx, versiculo, dataTexto) {
   const larguraEtiqueta = ctx.measureText(dataTexto).width + 64;
   ctx.beginPath();
   ctx.roundRect(xTexto, yEtiqueta, larguraEtiqueta, 68, 34);
-  ctx.fillStyle = CORES.verdePastel;
+  ctx.fillStyle = cores.suave;
   ctx.fill();
-  ctx.fillStyle = CORES.verdeEscuro;
+  ctx.fillStyle = cores.forte;
   ctx.textBaseline = "middle";
   ctx.fillText(dataTexto, xTexto + 32, yEtiqueta + 35);
 
@@ -106,12 +108,12 @@ function desenharCartao(ctx, versiculo, dataTexto) {
   // Aspas gigantes de enfeite, logo acima do texto
   ctx.save();
   ctx.font = `240px ${FONTE_SERIFADA}`;
-  ctx.fillStyle = CORES.verdePastel;
+  ctx.fillStyle = cores.suave;
   ctx.textBaseline = "alphabetic";
   ctx.fillText("“", xTexto - 12, y + 110);
   ctx.restore();
 
-  ctx.fillStyle = CORES.texto;
+  ctx.fillStyle = cores.texto;
   ctx.textBaseline = "top";
   for (const linha of linhas) {
     ctx.fillText(linha, xTexto, y);
@@ -120,20 +122,22 @@ function desenharCartao(ctx, versiculo, dataTexto) {
 
   // Referência (ex.: Jeremias 29:11)
   ctx.font = `700 44px ${FONTE_SISTEMA}`;
-  ctx.fillStyle = CORES.verdeEscuro;
+  ctx.fillStyle = cores.forte;
   ctx.fillText(versiculo.referencia, xTexto, y + 40);
 
   // Crédito da tradução (a licença CC BY pede que o nome apareça)
   ctx.font = `28px ${FONTE_SISTEMA}`;
   ctx.textAlign = "right";
   ctx.textBaseline = "alphabetic";
-  ctx.fillStyle = "rgba(31, 77, 58, 0.6)";
+  ctx.fillStyle = cores.forte;
+  ctx.globalAlpha = 0.6; // 60% de opacidade, mais apagado que o resto
   ctx.fillText("Bíblia Livre · CC BY 4.0", cartao.x + cartao.largura - respiro, cartao.y + cartao.altura - 56);
+  ctx.globalAlpha = 1;
 
   // Endereço do site embaixo do cartão
   ctx.font = `600 34px ${FONTE_SISTEMA}`;
   ctx.textAlign = "center";
-  ctx.fillStyle = CORES.verdeEscuro;
+  ctx.fillStyle = cores.forte;
   ctx.fillText("versiculo-diario-three.vercel.app", LARGURA_IMAGEM / 2, ALTURA_IMAGEM - 58);
   ctx.textAlign = "left";
 }

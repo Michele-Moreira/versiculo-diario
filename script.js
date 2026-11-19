@@ -5,6 +5,9 @@ const referencia = document.querySelector("cite");
 const botaoWhatsapp = document.querySelector("#whatsapp");
 const botaoOutro = document.querySelector("#outro");
 const linkCapitulo = document.querySelector("#capitulo");
+const botoesPaleta = document.querySelectorAll(".paleta");
+// As duas cores da barra do celular (uma pro tema claro, outra pro escuro)
+const [barraClara, barraEscura] = document.querySelectorAll('meta[name="theme-color"]');
 
 // Guarda qual versículo está na tela, pro sorteio não repetir o mesmo
 let indiceAtual = 0;
@@ -60,7 +63,7 @@ function prepararImagem(versiculo) {
   const canvas = document.createElement("canvas");
   canvas.width = LARGURA_IMAGEM;
   canvas.height = ALTURA_IMAGEM;
-  desenharCartao(canvas.getContext("2d"), versiculo, data.textContent);
+  desenharCartao(canvas.getContext("2d"), versiculo, data.textContent, PALETAS[paletaAtual()]);
 
   canvas.toBlob((blob) => {
     // Se a pessoa sorteou outro enquanto desenhava, essa imagem já não vale
@@ -91,13 +94,46 @@ function sortearOutro() {
   mostrarVersiculo(novo);
 }
 
-// Quando a página abre: data de hoje + versículo do dia
+// Qual paleta está na página agora (o script do <head> já pôs a salva)
+function paletaAtual() {
+  const nome = document.documentElement.dataset.paleta;
+  return PALETAS[nome] ? nome : "verde";
+}
+
+// Troca a paleta: o CSS muda as cores sozinho quando o data-paleta muda.
+// Aqui só falta marcar a bolinha certa, pintar a barra do celular e lembrar a escolha.
+function aplicarPaleta(nome) {
+  document.documentElement.dataset.paleta = nome;
+
+  botoesPaleta.forEach((botao) => {
+    botao.setAttribute("aria-pressed", botao.dataset.paleta === nome);
+  });
+
+  barraClara.content = PALETAS[nome].forte;
+  barraEscura.content = PALETAS[nome].fundoEscuro;
+
+  // try/catch: no modo anônimo de alguns celulares o localStorage dá erro
+  try {
+    localStorage.setItem("paleta", nome);
+  } catch (erro) {}
+}
+
+// Quando a página abre: paleta salva + data de hoje + versículo do dia
+aplicarPaleta(paletaAtual());
 const hoje = new Date();
 mostrarData(hoje);
 mostrarVersiculo(diaDoAno(hoje) % versiculos.length);
 
 botaoOutro.addEventListener("click", sortearOutro);
 botaoWhatsapp.addEventListener("click", compartilhar);
+
+botoesPaleta.forEach((botao) => {
+  botao.addEventListener("click", () => {
+    aplicarPaleta(botao.dataset.paleta);
+    // Redesenha a imagem do WhatsApp na cor nova
+    prepararImagem(versiculos[indiceAtual]);
+  });
+});
 
 // Liga o service worker (o que faz o app abrir sem internet), se o navegador tiver
 if ("serviceWorker" in navigator) {

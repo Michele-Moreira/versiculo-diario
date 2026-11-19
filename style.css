@@ -1,23 +1,59 @@
+/* As cores têm nome pela função, não pela cor, porque mudam com a paleta:
+   --cor-forte  = botão, referência, data e faixa do topo
+   --cor-suave  = fundo da página e etiqueta da data
+   --cor-cartao = fundo do cartão (e letra do botão cheio) */
+
+/* Paleta verde (a padrão) */
 :root {
-  --verde-escuro: #1F4D3A;
-  --verde-pastel: #DCEFE3;
-  --branco: #FFFFFF;
+  --cor-forte: #1F4D3A;
+  --cor-suave: #DCEFE3;
+  --cor-cartao: #FFFFFF;
   --texto: #1E2A24;
+  /* Sombra do cartão com 15% da cor forte, pra acompanhar a paleta */
+  --sombra: color-mix(in srgb, var(--cor-forte) 15%, transparent);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* Modo escuro: segue a configuração do celular. Só troca o valor das cores,
-   o resto do CSS continua igual porque já usa as variáveis. */
+/* As outras paletas: o JS põe data-paleta="azul" ou "lilas" na tag <html> */
+:root[data-paleta="azul"] {
+  --cor-forte: #1E3A5F;
+  --cor-suave: #DCE8F5;
+  --texto: #1C2633;
+}
+
+:root[data-paleta="lilas"] {
+  --cor-forte: #4B2E6B;
+  --cor-suave: #ECE3F5;
+  --texto: #2A2233;
+}
+
+/* Modo escuro: segue a configuração do celular. Cada paleta tem a sua versão escura:
+   a cor forte vira clara e o fundo vira quase preto, puxado pra cor da paleta. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --verde-escuro: #8FD1AE; /* vira verde claro: botão, referência, data */
-    --verde-pastel: #0F1F18; /* fundo da página quase preto esverdeado */
-    --branco: #17302A;       /* o cartão, verde bem escuro */
-    --texto: #E6F2EA;        /* texto do versículo claro */
+    --cor-forte: #8FD1AE;
+    --cor-suave: #0F1F18;
+    --cor-cartao: #17302A;
+    --texto: #E6F2EA;
   }
 
-  main {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  :root[data-paleta="azul"] {
+    --cor-forte: #9CC3EC;
+    --cor-suave: #0E1724;
+    --cor-cartao: #172638;
+    --texto: #E6EEF7;
+  }
+
+  :root[data-paleta="lilas"] {
+    --cor-forte: #C9A8EC;
+    --cor-suave: #1A1224;
+    --cor-cartao: #2A1E3A;
+    --texto: #F0E8F7;
+  }
+
+  /* No escuro, sombra preta (a colorida viraria um brilho em volta do cartão) */
+  :root {
+    --sombra: rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -32,7 +68,7 @@ body {
   margin: 0;
   min-height: 100vh;
   padding: 1.5rem 1rem;
-  background: var(--verde-pastel);
+  background: var(--cor-suave);
   color: var(--texto);
   display: flex;
   flex-direction: column;
@@ -46,10 +82,10 @@ main {
   width: 100%;
   max-width: 32rem;
   padding: 2rem 1.5rem;
-  background: var(--branco);
+  background: var(--cor-cartao);
   border-radius: 1.5rem;
-  border-top: 6px solid var(--verde-escuro);
-  box-shadow: 0 8px 24px rgba(31, 77, 58, 0.15);
+  border-top: 6px solid var(--cor-forte);
+  box-shadow: 0 8px 24px var(--sombra);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -59,8 +95,8 @@ main {
 time {
   align-self: flex-start;
   padding: 0.35rem 0.9rem;
-  background: var(--verde-pastel);
-  color: var(--verde-escuro);
+  background: var(--cor-suave);
+  color: var(--cor-forte);
   border-radius: 999px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -81,7 +117,7 @@ blockquote::before {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 6rem;
   line-height: 1;
-  color: var(--verde-pastel);
+  color: var(--cor-suave);
 }
 
 /* O versículo em fonte serifada, com cara de livro */
@@ -95,7 +131,7 @@ blockquote p {
 
 cite {
   display: block;
-  color: var(--verde-escuro);
+  color: var(--cor-forte);
   font-size: 1.1rem;
   font-style: normal;
   font-weight: 700;
@@ -113,9 +149,9 @@ cite {
   display: block;
   width: 100%;
   padding: 0.9rem 1.5rem;
-  background: var(--verde-escuro);
-  color: var(--branco);
-  border: 2px solid var(--verde-escuro);
+  background: var(--cor-forte);
+  color: var(--cor-cartao);
+  border: 2px solid var(--cor-forte);
   border-radius: 999px;
   font: inherit;
   font-size: 1.15rem;
@@ -138,30 +174,74 @@ cite {
 .botao:focus-visible,
 .link-capitulo:focus-visible,
 footer a:focus-visible {
-  outline: 3px solid var(--verde-escuro);
+  outline: 3px solid var(--cor-forte);
   outline-offset: 3px;
 }
 
 .botao-secundario {
-  background: var(--branco);
-  color: var(--verde-escuro);
+  background: var(--cor-cartao);
+  color: var(--cor-forte);
 }
 
 .botao-secundario:hover {
-  background: var(--verde-pastel);
+  background: var(--cor-suave);
 }
 
 .link-capitulo {
   align-self: center;
-  color: var(--verde-escuro);
+  color: var(--cor-forte);
   font-weight: 600;
   text-underline-offset: 4px;
+}
+
+/* Bolinhas de cor pra trocar a paleta */
+.paletas {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.paleta {
+  width: 2.75rem;  /* 44px: tamanho bom pro dedo */
+  height: 2.75rem;
+  padding: 0;
+  border: 3px solid var(--cor-cartao);
+  border-radius: 50%;
+  background: var(--amostra);
+  /* O anel de fora (box-shadow) só aparece na bolinha escolhida */
+  box-shadow: 0 0 0 2px transparent;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.paleta:hover {
+  transform: scale(1.08);
+}
+
+.paleta[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px var(--cor-forte);
+}
+
+.paleta:focus-visible {
+  outline: 3px solid var(--cor-forte);
+  outline-offset: 4px;
+}
+
+/* Cada bolinha mostra a cor forte da paleta dela, seja qual for a escolhida */
+.paleta-verde { --amostra: #1F4D3A; }
+.paleta-azul { --amostra: #1E3A5F; }
+.paleta-lilas { --amostra: #4B2E6B; }
+
+@media (prefers-color-scheme: dark) {
+  .paleta-verde { --amostra: #8FD1AE; }
+  .paleta-azul { --amostra: #9CC3EC; }
+  .paleta-lilas { --amostra: #C9A8EC; }
 }
 
 footer {
   max-width: 32rem;
   text-align: center;
-  color: var(--verde-escuro);
+  color: var(--cor-forte);
   font-size: 0.9rem;
 }
 

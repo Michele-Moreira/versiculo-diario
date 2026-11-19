@@ -22,6 +22,8 @@ celular, com letra grande e contraste forte pra facilitar a leitura.
 - **App de celular (PWA):** dá pra instalar na tela inicial pelo Chrome ("Instalar app"). Abre em tela cheia,
   com ícone próprio, e funciona sem internet.
 - **Modo escuro:** segue sozinho o tema do celular ou do computador.
+- **3 paletas de cor:** verde, azul e lilás, trocadas pelas bolinhas embaixo do cartão. O celular lembra a
+  escolha, e a imagem do WhatsApp sai na cor escolhida.
 
 ## Tecnologias
 
@@ -30,8 +32,8 @@ Projeto feito sem framework e sem biblioteca, pra praticar a base.
 | Tecnologia | Onde aparece |
 |---|---|
 | **HTML** | Tags com significado: `main`, `time`, `blockquote`, `cite`, `footer` |
-| **CSS** | Variáveis de cor (`:root`), flex-box, `media query` pensada primeiro pro celular, modo escuro com `prefers-color-scheme`, pseudo-elemento `::before` nas aspas de enfeite, estados `:hover` e `:focus-visible` |
-| **JavaScript** | DOM (`querySelector`, `textContent`), eventos (`addEventListener`), datas (`Date` e `toLocaleDateString`), `encodeURIComponent` no link do WhatsApp |
+| **CSS** | Variáveis de cor (`:root`), flex-box, `media query` pensada primeiro pro celular, modo escuro com `prefers-color-scheme`, paletas por atributo (`[data-paleta]`), `color-mix` na sombra, pseudo-elemento `::before` nas aspas de enfeite, estados `:hover` e `:focus-visible` |
+| **JavaScript** | DOM (`querySelector`, `textContent`), eventos (`addEventListener`), datas (`Date` e `toLocaleDateString`), `encodeURIComponent` no link do WhatsApp, `localStorage` pra lembrar a paleta |
 | **PWA** | `manifest.json` (nome, cores e ícones do app) e service worker com cache pra abrir sem internet |
 | **Git e GitHub** | Histórico do projeto, um commit por etapa, no padrão Conventional Commits |
 

@@ -27,6 +27,12 @@
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="pt_BR">
 
+    <!-- Aplica a paleta salva antes de desenhar a página, senão pisca verde antes de trocar -->
+    <script>
+        try {
+            document.documentElement.dataset.paleta = localStorage.getItem("paleta") || "verde";
+        } catch (erro) {}
+    </script>
     <link rel="stylesheet" href="style.css">
     <script src="versiculos.js" defer></script>
     <script src="imagem.js" defer></script>
@@ -44,6 +50,11 @@
             <button type="button" id="outro" class="botao botao-secundario">Outro versículo</button>
         </div>
         <a href="https://ebible.org/porbr2018/JER29.htm" target="_blank" class="link-capitulo" id="capitulo">Ler o capítulo</a>
+        <div class="paletas" role="group" aria-label="Cor do cartão">
+            <button type="button" class="paleta paleta-verde" data-paleta="verde" aria-label="Verde" aria-pressed="true"></button>
+            <button type="button" class="paleta paleta-azul" data-paleta="azul" aria-label="Azul" aria-pressed="false"></button>
+            <button type="button" class="paleta paleta-lilas" data-paleta="lilas" aria-label="Lilás" aria-pressed="false"></button>
+        </div>
     </main>
     <footer>Texto bíblico: <a href="https://ebible.org/porbr2018/copyright.htm">Bíblia Livre</a>, licença CC BY 4.0</footer>
 </body>
