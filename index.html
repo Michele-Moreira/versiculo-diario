@@ -34,6 +34,16 @@
         } catch (erro) {}
     </script>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Google Analytics: conta visitas e cliques. O async baixa sem travar a página,
+         e o dataLayer é uma fila: clique feito antes de o Google carregar fica guardado -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2S1E39N0PS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag("js", new Date());
+        gtag("config", "G-2S1E39N0PS");
+    </script>
     <script src="versiculos.js" defer></script>
     <script src="imagem.js" defer></script>
     <script src="script.js" defer></script>

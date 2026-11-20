@@ -118,18 +118,33 @@ function aplicarPaleta(nome) {
   } catch (erro) {}
 }
 
+// Avisa o Google Analytics de um clique. Se o gtag não existir (bloqueador de anúncio,
+// por exemplo), não faz nada: o site continua funcionando igual.
+function registrar(evento, detalhes) {
+  if (typeof gtag === "function") gtag("event", evento, detalhes);
+}
+
 // Quando a página abre: paleta salva + data de hoje + versículo do dia
 aplicarPaleta(paletaAtual());
 const hoje = new Date();
 mostrarData(hoje);
 mostrarVersiculo(diaDoAno(hoje) % versiculos.length);
 
-botaoOutro.addEventListener("click", sortearOutro);
-botaoWhatsapp.addEventListener("click", compartilhar);
+botaoOutro.addEventListener("click", () => {
+  sortearOutro();
+  registrar("outro_versiculo");
+});
+
+botaoWhatsapp.addEventListener("click", (evento) => {
+  // Registra antes de compartilhar, porque no computador o link troca de página na hora
+  registrar("enviar_whatsapp", { versiculo: versiculos[indiceAtual].referencia });
+  compartilhar(evento);
+});
 
 botoesPaleta.forEach((botao) => {
   botao.addEventListener("click", () => {
     aplicarPaleta(botao.dataset.paleta);
+    registrar("trocar_paleta", { paleta: botao.dataset.paleta });
     // Redesenha a imagem do WhatsApp na cor nova
     prepararImagem(versiculos[indiceAtual]);
   });
